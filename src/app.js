@@ -98,6 +98,23 @@ app.patch('/students/:id', async(req,res)=>{
 //     }
 // })
 
+//Delete student detail
+app.delete('/students/:id', async (req,res)=>{
+    try {
+        const _id = req.params.id;
+        console.log(_id);
+        const deleteStudent = await Student.findByIdAndDelete(_id)
+        console.log(deleteStudent);
+        if(!deleteStudent){
+            res.status(404).json({status:404, message:"Not Found"})
+        }else{
+            res.status(201).json({status:201, message:"Successfully Deleted", data: deleteStudent})
+        }
+    } catch (error) {
+        res.status(500).json({status:500, message:error})
+    }
+})
+
 //created server 
 app.listen(port, ()=>{
     console.log(`Server started at port ${port}`);
