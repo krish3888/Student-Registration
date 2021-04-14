@@ -22,7 +22,7 @@ const studentSchema = new mongoose.Schema({
         type:Number,
         required:true,
         unique: true,
-        min:10,
+        minlength:10,
     },
     address:{
         type:String,
