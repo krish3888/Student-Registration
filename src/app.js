@@ -76,6 +76,28 @@ app.get('/students/:name', async(req,res)=>{
     }
 })
 
+//update student data(By ID)
+app.patch('/students/:id', async(req,res)=>{
+    try {
+        const _id = req.params.id;
+        const updateStudent = await Student.findByIdAndUpdate(_id, req.body,{new: true})
+        res.status(201).json({status:201, message:"Successfully Updated", data: updateStudent})
+    } catch (error) {
+        res.status(500).json({status:500, message:error})
+    }
+})
+
+//update student data(By name)
+// app.patch('/students/:name', async(req,res)=>{
+//     try {
+//         const _name = req.params.name;
+//         const updateStudent = await Student.findOneAndUpdate({name:_name}, req.body,{new: true})
+//         res.status(201).json({status:201, message:"Successfully Updated", data: updateStudent})
+//     } catch (error) {
+//         res.status(500).json({status:500, message:error})
+//     }
+// })
+
 //created server 
 app.listen(port, ()=>{
     console.log(`Server started at port ${port}`);
