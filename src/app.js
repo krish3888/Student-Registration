@@ -24,7 +24,7 @@ app.post('/students', async(req,res)=>{
         const newStudent = await student.save();
         res.status(201).json({status:201, message:"Registration Successful", data: newStudent})
     } catch (err) {
-        res.status(201).json({status:201, message:err});
+        res.status(400).json({status:201, message:err});
     }
 })
 
@@ -33,8 +33,48 @@ app.post('/students', async(req,res)=>{
 //     const student = new Student(req.body);
 //     const newStudent = await student.save()
 //     .then((data)=>{res.status(201).json({status:201, message:"Registration Successful", data: data})})
-//     .catch((er)=>{res.status(201).json({status:201, message:er})})
+//     .catch((er)=>{res.status(400).json({status:201, message:er})})
 // })
+
+//read all students detail
+app.get('/students', async(req,res)=>{
+    try {
+        const students = await Student.find()
+        res.status(201).json({status:201, message:"Fatched", data: students})
+    } catch (error) {
+        res.status(400).json({status:400, message:error})
+    }
+})
+
+//read individual student detail (By id)
+// app.get('/students/:id', async(req,res)=>{
+//     try {
+//         const _id = req.params.id;
+//         const students = await Student.findById(_id)
+//         if(!students){
+//             res.status(404).json({status:404, message:"Not Found"})
+//         }else{
+//             res.status(201).json({status:201, message:"Fatched", data: students})
+//         }
+//     } catch (error) {
+//         res.status(500).json({status:500, message:error})
+//     }
+// })
+
+//read individual student detail (By name)
+app.get('/students/:name', async(req,res)=>{
+    try {
+        const _name = req.params.name;
+        const students = await Student.findOne({name: _name})
+        if(!students){
+            res.status(404).json({status:404, message:"Not Found"})
+        }else{
+            res.status(201).json({status:201, message:"Fatched", data: students})
+        }
+    } catch (error) {
+        res.status(500).json({status:500, message:error})
+    }
+})
 
 //created server 
 app.listen(port, ()=>{
